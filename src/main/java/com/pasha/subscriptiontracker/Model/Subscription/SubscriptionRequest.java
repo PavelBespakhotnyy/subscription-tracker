@@ -1,4 +1,4 @@
-package com.pasha.subscriptiontracker.Model;
+package com.pasha.subscriptiontracker.Model.Subscription;
 
 import com.pasha.subscriptiontracker.Model.enums.SubscriptionRequestType;
 
