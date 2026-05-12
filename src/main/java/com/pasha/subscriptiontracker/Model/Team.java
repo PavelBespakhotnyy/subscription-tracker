@@ -5,14 +5,16 @@ import java.time.LocalDateTime;
 public class Team {
     private Integer id;
     private String name;
+    private String inviteCode;
     private LocalDateTime createdAt;
 
     public Team() {
     }
 
-    public Team(Integer id, String name, LocalDateTime createdAt) {
+    public Team(Integer id, String name, String inviteCode, LocalDateTime createdAt) {
         this.id = id;
         this.name = name;
+        this.inviteCode = inviteCode;
         this.createdAt = createdAt;
     }
 
@@ -38,5 +40,13 @@ public class Team {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getInviteCode() {
+        return inviteCode;
+    }
+
+    public void setInviteCode(String inviteCode) {
+        this.inviteCode = inviteCode;
     }
 }
