@@ -1,17 +1,18 @@
 package com.pasha.subscriptiontracker.Model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class PaymentHistory {
     private Integer id;
     private Integer subscriptionId;
     private Double amount;
-    private LocalDateTime paymentDate;
+    private LocalDate paymentDate;
 
     public PaymentHistory() {
     }
 
-    public PaymentHistory(Integer id, Integer subscriptionId, Double amount, LocalDateTime paymentDate) {
+    public PaymentHistory(Integer id, Integer subscriptionId, Double amount, LocalDate paymentDate) {
         this.id = id;
         this.subscriptionId = subscriptionId;
         this.amount = amount;
@@ -42,11 +43,11 @@ public class PaymentHistory {
         this.amount = amount;
     }
 
-    public LocalDateTime getPaymentDate() {
+    public LocalDate getPaymentDate() {
         return paymentDate;
     }
 
-    public void setPaymentDate(LocalDateTime paymentDate) {
+    public void setPaymentDate(LocalDate paymentDate) {
         this.paymentDate = paymentDate;
     }
 }
