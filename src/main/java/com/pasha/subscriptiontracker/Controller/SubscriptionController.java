@@ -8,6 +8,7 @@ import com.pasha.subscriptiontracker.Model.PaymentHistory;
 import com.pasha.subscriptiontracker.Model.Subscription.Subscription;
 import com.pasha.subscriptiontracker.Model.Subscription.SubscriptionRequest;
 import com.pasha.subscriptiontracker.Model.Subscription.SubscriptionStatus;
+import com.pasha.subscriptiontracker.Model.enums.BillingCycle;
 import com.pasha.subscriptiontracker.Model.enums.SubscriptionStatusType;
 
 import java.util.ArrayList;
@@ -104,6 +105,12 @@ public class SubscriptionController {
         return result;
     }
 
+    // Notifications methods
+    // Update notifiaction
+    public boolean updateNotification(Notification n) {
+        return notificationDAO.update(n);
+    }
+
     // SubscriptionRequestDAO methods
     public boolean addRequest(SubscriptionRequest r) {
         return subscriptionRequestDAO.add(r);
@@ -113,7 +120,7 @@ public class SubscriptionController {
         return subscriptionRequestDAO.getByTeamId(teamId);
     }
 
-    public boolean update(SubscriptionRequest r) {
+    public boolean updateRequest(SubscriptionRequest r) {
         return subscriptionRequestDAO.update(r);
     }
 
@@ -134,5 +141,39 @@ public class SubscriptionController {
     // PaymentHistoryDAO methods
     public List<PaymentHistory> getPaymentHistory(int subscriptionId) {
         return paymentHistoryDAO.getBySubscriptionId(subscriptionId);
+    }
+
+    // Get total cost of all monthly subscriptions
+    public double getTotalMonthlyCost(int userId) {
+        List<Subscription> list = subscriptionDAO.getByUserId(userId);
+        double total = 0;
+        for (Subscription s : list) {
+            if (s.getBillingCycle() == BillingCycle.MONTHLY) {
+                total += s.getCost();
+            } else {
+                total += s.getCost() / 12;
+            }
+        }
+        return total;
+    }
+
+    // Pause or Resume subscription
+    public boolean changeStatus(int subscriptionId, SubscriptionStatusType newStatus, int userId) {
+        SubscriptionStatus st = new SubscriptionStatus();
+        st.setSubscriptionId(subscriptionId);
+        st.setStatus(newStatus);
+        boolean result = subscriptionStatusDAO.add(st);
+        if (result) logAction(userId, "changed status to " + newStatus.name().toLowerCase(), subscriptionId);
+        return result;
+    }
+
+    // Logging
+    private void logAction(int userId, String action, int entityId) {
+        AuditLog log = new AuditLog();
+        log.setUserId(userId);
+        log.setAction(action);
+        log.setEntity("subscriptions");
+        log.setEntityId(entityId);
+        auditLogDAO.add(log);
     }
 }
