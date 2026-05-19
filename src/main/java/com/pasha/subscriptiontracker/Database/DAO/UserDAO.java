@@ -9,7 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UsersDAO {
+public class UserDAO {
     // Register new user
     public boolean register(User user) {
         // Connecting to the database
